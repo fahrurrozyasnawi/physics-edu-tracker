@@ -1,10 +1,10 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import Home from '../screens/Home';
-import Header from '../components/header';
-import Viscosity from '../screens/Lessons/Viscosity';
-import ProjectileMotion from '../screens/Lessons/ProjectileMotion';
-import Pendulum from '../screens/Lessons/Pendulum';
+import Header from '@components/header';
+import Viscosity from '@screens/Lessons/Viscosity';
+import ProjectileMotion from '@screens/Lessons/ProjectileMotion';
+import Pendulum from '@screens/Lessons/Pendulum';
 
 const Stack = createNativeStackNavigator();
 
