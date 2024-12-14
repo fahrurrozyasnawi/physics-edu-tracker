@@ -1,13 +1,16 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {Button, Modal} from 'react-native-paper';
+import React, {useState} from 'react';
+import {Button, Modal, useTheme} from 'react-native-paper';
 import HStack from '@components/stack view/HStack';
 import VideoPlayer from '@components/media/VideoPlayer';
 import {OnProgressData, ReactVideoEvents} from 'react-native-video';
+import VStack from '@components/stack view/VStack';
 
 type FrameProps = {
   visible: boolean;
   videoUri: string;
+  onDismiss: () => void;
+  onExtract: (duration: number) => void;
 };
 
 const controlOptions = {
@@ -19,14 +22,25 @@ const controlOptions = {
   hideFullscren: true,
 };
 
-const FrameExtract = ({visible, videoUri}: FrameProps) => {
+const FrameExtract = ({
+  visible,
+  videoUri,
+  onDismiss,
+  onExtract,
+}: FrameProps) => {
+  const theme = useTheme();
+
+  const [duration, setDuration] = useState<number>(0);
+
   const handleProgressChange = (event: OnProgressData) => {
     console.log('event', event);
+
+    setDuration(event.currentTime);
   };
 
   return (
     <Modal visible={visible}>
-      <HStack>
+      <HStack style={styles.stack}>
         <VideoPlayer
           src={videoUri}
           paused={true}
@@ -34,7 +48,12 @@ const FrameExtract = ({visible, videoUri}: FrameProps) => {
           onProgress={handleProgressChange}
         />
 
-        <Button>Extract Frame</Button>
+        <VStack style={styles.stack}>
+          <Button onPress={() => onExtract(duration)}>Extract Frame</Button>
+          <Button onPress={onDismiss} buttonColor={theme.colors.error}>
+            Cancel
+          </Button>
+        </VStack>
       </HStack>
     </Modal>
   );
